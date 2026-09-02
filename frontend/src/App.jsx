@@ -3,6 +3,7 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import Login from "./pages/Login/Login";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import Tickets from "./pages/Tickets/Tickets";
+import TicketDetails from "./pages/Tickets/TicketDetails";
 
 import Layout from "./components/Layout/Layout";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -27,6 +28,11 @@ function App() {
             element={<Tickets />}
           />
         </Route>
+
+        <Route
+          path="/tickets/:id"
+          element={<TicketDetails />}
+        />
       </Route>
 
       <Route

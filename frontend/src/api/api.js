@@ -17,6 +17,10 @@ api.interceptors.request.use(
       if (user.token) {
         config.headers.Authorization = `${user.type} ${user.token}`;
       }
+
+      if (user.uuid) {
+        config.headers["X-User-UUID"] = user.uuid;
+      }
     }
 
     return config;
