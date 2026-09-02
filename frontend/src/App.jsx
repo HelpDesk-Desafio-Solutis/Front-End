@@ -1,16 +1,44 @@
-import { useEffect } from "react";
-import { testGateway } from "./api/test";
+import { Navigate, Route, Routes } from "react-router-dom";
+
+import Login from "./pages/Login/Login";
+import Dashboard from "./pages/Dashboard/Dashboard";
+import Tickets from "./pages/Tickets/Tickets";
+
+import Layout from "./components/Layout/Layout";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
-  useEffect(() => {
-    testGateway();
-  }, []);
-
   return (
-    <div>
-      <h1>HelpDesk</h1>
-      <p>Testando comunicação com o API Gateway...</p>
-    </div>
+    <Routes>
+      <Route
+        path="/login"
+        element={<Login />}
+      />
+
+      <Route element={<ProtectedRoute />}>
+        <Route element={<Layout />}>
+          <Route
+            path="/dashboard"
+            element={<Dashboard />}
+          />
+
+          <Route
+            path="/tickets"
+            element={<Tickets />}
+          />
+        </Route>
+      </Route>
+
+      <Route
+        path="/"
+        element={<Navigate to="/dashboard" replace />}
+      />
+
+      <Route
+        path="*"
+        element={<Navigate to="/dashboard" replace />}
+      />
+    </Routes>
   );
 }
 

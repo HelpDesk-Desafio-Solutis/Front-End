@@ -1,22 +1,25 @@
 import api from "./api";
 
-export async function testGateway() {
+export async function login(email, password) {
   try {
-    const response = await api.get("/api/users");
+    const response = await api.post("/api/auth/login", {
+      email,
+      password,
+    });
 
-    console.log("Gateway respondeu:");
+    console.log("LOGIN OK");
     console.log("Status:", response.status);
-    console.log("Dados:", response.data);
+    console.log("Resposta:", response.data);
 
     return response.data;
-
   } catch (error) {
-    console.error("Erro ao acessar o Gateway:");
+    console.error("ERRO NO LOGIN");
+
     if (error.response) {
       console.error("Status:", error.response.status);
       console.error("Resposta:", error.response.data);
     } else if (error.request) {
-      console.error("O Gateway não respondeu.");
+      console.error("O servidor não respondeu.");
     } else {
       console.error("Erro:", error.message);
     }
