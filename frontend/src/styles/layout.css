@@ -543,3 +543,30 @@
 .ticket-confirm-modal p {
   margin-bottom: 12px;
 }
+
+.tickets-search {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.tickets-search label {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.tickets-search input {
+  width: 100%;
+  padding: 11px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: #fff;
+  font-size: 14px;
+  font-family: inherit;
+  box-sizing: border-box;
+}
+
+.tickets-search input:focus {
+  outline: none;
+  border-color: #2563eb;
+}

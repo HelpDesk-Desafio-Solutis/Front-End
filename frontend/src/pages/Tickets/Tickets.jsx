@@ -11,18 +11,9 @@ import {
 import TicketDetails from "../Tickets/TicketDetails";
 import { getUsers } from "../../api/users";
 
-const categories = [
-  "HARDWARE",
-  "SOFTWARE",
-  "NETWORK",
-];
+const categories = ["HARDWARE", "SOFTWARE", "NETWORK"];
 
-const priorities = [
-  "LOW",
-  "MEDIUM",
-  "HIGH",
-  "CRITICAL",
-];
+const priorities = ["LOW", "MEDIUM", "HIGH", "CRITICAL"];
 
 const statusLabels = {
   OPEN: "Aberto",
@@ -50,56 +41,41 @@ function Tickets() {
 
   const [tickets, setTickets] = useState([]);
   const [availableTickets, setAvailableTickets] = useState([]);
-  const [selectedTicketId, setSelectedTicketId] =
-    useState(null);
+  const [selectedTicketId, setSelectedTicketId] = useState(null);
 
   const [loading, setLoading] = useState(true);
-  const [refreshing, setRefreshing] =
-    useState(false);
-  const [availableLoading, setAvailableLoading] =
-    useState(false);
+  const [refreshing, setRefreshing] = useState(false);
+  const [availableLoading, setAvailableLoading] = useState(false);
   const [error, setError] = useState("");
-  const [availableError, setAvailableError] =
-    useState("");
+  const [availableError, setAvailableError] = useState("");
 
-  const [activeSection, setActiveSection] =
-    useState("tickets");
+  const [activeSection, setActiveSection] = useState("tickets");
 
   const [title, setTitle] = useState("");
-  const [description, setDescription] =
-    useState("");
+  const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
   const [priority, setPriority] = useState("");
 
-  const [clientUuid, setClientUuid] =
-    useState("");
-  const [technicianUuid, setTechnicianUuid] =
-    useState("");
+  const [clientUuid, setClientUuid] = useState("");
+  const [technicianUuid, setTechnicianUuid] = useState("");
 
   const [creating, setCreating] = useState(false);
-  const [createError, setCreateError] =
-    useState("");
-  const [createSuccess, setCreateSuccess] =
-    useState("");
+  const [createError, setCreateError] = useState("");
+  const [createSuccess, setCreateSuccess] = useState("");
 
-  const [statusFilter, setStatusFilter] =
-    useState("TODOS");
+  const [statusFilter, setStatusFilter] = useState("TODOS");
 
-  const [categoryFilter, setCategoryFilter] =
-    useState("TODAS");
+  const [categoryFilter, setCategoryFilter] = useState("TODAS");
 
-  const [priorityFilter, setPriorityFilter] =
-    useState("TODAS");
+  const [priorityFilter, setPriorityFilter] = useState("TODAS");
+
+  const [searchTerm, setSearchTerm] = useState("");
 
   const [users, setUsers] = useState([]);
-  const [usersLoading, setUsersLoading] =
-    useState(false);
-  const [usersError, setUsersError] =
-    useState("");
+  const [usersLoading, setUsersLoading] = useState(false);
+  const [usersError, setUsersError] = useState("");
 
-  async function loadTickets(
-    showLoading = true
-  ) {
+  async function loadTickets(showLoading = true) {
     if (!user?.uuid || !user?.role) {
       return;
     }
@@ -116,33 +92,20 @@ function Tickets() {
       let data;
 
       if (user.role === "CLIENT") {
-        data = await getTicketsByClient(
-          user.uuid
-        );
-      } else if (
-        user.role === "TECHNICIAN"
-      ) {
-        data = await getTicketsByTechnician(
-          user.uuid
-        );
+        data = await getTicketsByClient(user.uuid);
+      } else if (user.role === "TECHNICIAN") {
+        data = await getTicketsByTechnician(user.uuid);
       } else if (user.role === "ADMIN") {
         data = await getTickets();
       } else {
-        throw new Error(
-          "Perfil de usuário não suportado."
-        );
+        throw new Error("Perfil de usuário não suportado.");
       }
 
       setTickets(data);
     } catch (error) {
-      console.error(
-        "Erro ao carregar tickets:",
-        error
-      );
+      console.error("Erro ao carregar tickets:", error);
 
-      setError(
-        "Não foi possível carregar os tickets."
-      );
+      setError("Não foi possível carregar os tickets.");
     } finally {
       if (showLoading) {
         setLoading(false);
@@ -153,10 +116,7 @@ function Tickets() {
   }
 
   async function loadAvailableTickets() {
-    if (
-      user?.role !== "ADMIN" &&
-      user?.role !== "TECHNICIAN"
-    ) {
+    if (user?.role !== "ADMIN" && user?.role !== "TECHNICIAN") {
       return;
     }
 
@@ -167,14 +127,9 @@ function Tickets() {
       const data = await getAvailableTickets();
       setAvailableTickets(data);
     } catch (error) {
-      console.error(
-        "Erro ao carregar tickets disponíveis:",
-        error
-      );
+      console.error("Erro ao carregar tickets disponíveis:", error);
 
-      setAvailableError(
-        "Não foi possível carregar os tickets disponíveis."
-      );
+      setAvailableError("Não foi possível carregar os tickets disponíveis.");
     } finally {
       setAvailableLoading(false);
     }
@@ -188,14 +143,9 @@ function Tickets() {
       const data = await getUsers();
       setUsers(data);
     } catch (error) {
-      console.error(
-        "Erro ao carregar usuários:",
-        error
-      );
+      console.error("Erro ao carregar usuários:", error);
 
-      setUsersError(
-        "Não foi possível carregar os usuários."
-      );
+      setUsersError("Não foi possível carregar os usuários.");
     } finally {
       setUsersLoading(false);
     }
@@ -208,10 +158,7 @@ function Tickets() {
   }, [user]);
 
   useEffect(() => {
-    if (
-      user?.role === "ADMIN" ||
-      user?.role === "TECHNICIAN"
-    ) {
+    if (user?.role === "ADMIN" || user?.role === "TECHNICIAN") {
       loadUsers();
     }
   }, [user]);
@@ -219,42 +166,35 @@ function Tickets() {
   useEffect(() => {
     if (
       activeSection === "available" &&
-      (user?.role === "ADMIN" ||
-        user?.role === "TECHNICIAN")
+      (user?.role === "ADMIN" || user?.role === "TECHNICIAN")
     ) {
       loadAvailableTickets();
     }
   }, [activeSection, user]);
 
-  const filteredTickets = tickets.filter(
-    (ticket) => {
-      const matchesStatus =
-        statusFilter === "TODOS" ||
-        ticket.status === statusFilter;
+  const filteredTickets = tickets.filter((ticket) => {
+    const search = searchTerm.trim().toLowerCase();
 
-      const matchesCategory =
-        categoryFilter === "TODAS" ||
-        ticket.category === categoryFilter;
+    const matchesSearch =
+      !search ||
+      ticket.title?.toLowerCase().includes(search) ||
+      ticket.description?.toLowerCase().includes(search);
 
-      const matchesPriority =
-        priorityFilter === "TODAS" ||
-        ticket.priority === priorityFilter;
+    const matchesStatus =
+      statusFilter === "TODOS" || ticket.status === statusFilter;
 
-      return (
-        matchesStatus &&
-        matchesCategory &&
-        matchesPriority
-      );
-    }
-  );
+    const matchesCategory =
+      categoryFilter === "TODAS" || ticket.category === categoryFilter;
 
-  const clients = users.filter(
-    (item) => item.role === "CLIENT"
-  );
+    const matchesPriority =
+      priorityFilter === "TODAS" || ticket.priority === priorityFilter;
 
-  const technicians = users.filter(
-    (item) => item.role === "TECHNICIAN"
-  );
+    return matchesSearch && matchesStatus && matchesCategory && matchesPriority;
+  });
+
+  const clients = users.filter((item) => item.role === "CLIENT");
+
+  const technicians = users.filter((item) => item.role === "TECHNICIAN");
 
   function clearForm() {
     setTitle("");
@@ -294,32 +234,22 @@ function Tickets() {
         await createTicketAdmin({
           ...ticket,
           clientUuid,
-          technicianUuid:
-            technicianUuid || null,
+          technicianUuid: technicianUuid || null,
         });
       }
 
       clearForm();
 
-      setCreateSuccess(
-        "Ticket criado com sucesso!"
-      );
+      setCreateSuccess("Ticket criado com sucesso!");
 
       await loadTickets(false);
     } catch (error) {
-      console.error(
-        "Erro ao criar ticket:",
-        error
-      );
+      console.error("Erro ao criar ticket:", error);
 
       if (error.response?.data?.message) {
-        setCreateError(
-          error.response.data.message
-        );
+        setCreateError(error.response.data.message);
       } else {
-        setCreateError(
-          "Não foi possível criar o ticket."
-        );
+        setCreateError("Não foi possível criar o ticket.");
       }
     } finally {
       setCreating(false);
@@ -390,6 +320,18 @@ function Tickets() {
 
       {activeSection === "tickets" && (
         <section className="tickets-section">
+          <div className="ticket-search">
+            <label htmlFor="ticket-search">Pesquisar chamados</label>
+
+            <input
+              id="ticket-search"
+              type="text"
+              value={searchTerm}
+              onChange={(event) => setSearchTerm(event.target.value)}
+              placeholder="Pesquisar por título ou descrição..."
+            />
+          </div>
+
           <div className="ticket-filters">
             <div className="ticket-filter">
               <label htmlFor="status-filter">Status</label>
@@ -470,11 +412,13 @@ function Tickets() {
               <h2>Nenhum ticket encontrado</h2>
 
               <p>
-                {statusFilter === "TODOS" &&
-                categoryFilter === "TODAS" &&
-                priorityFilter === "TODAS"
-                  ? "Ainda não existem tickets relacionados ao seu perfil."
-                  : "Não existem tickets com os filtros selecionados."}
+                {searchTerm.trim()
+                  ? "Nenhum ticket encontrado para a pesquisa."
+                  : statusFilter === "TODOS" &&
+                      categoryFilter === "TODAS" &&
+                      priorityFilter === "TODAS"
+                    ? "Ainda não existem tickets relacionados ao seu perfil."
+                    : "Não existem tickets com os filtros selecionados."}
               </p>
             </div>
           )}
