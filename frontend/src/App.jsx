@@ -5,6 +5,7 @@ import Dashboard from "./pages/Dashboard/Dashboard";
 import Tickets from "./pages/Tickets/Tickets";
 import TicketDetails from "./pages/Tickets/TicketDetails";
 import Users from "./pages/Users";
+import Notifications from "./pages/Notifications/Notifications";
 
 import Layout from "./components/Layout/Layout";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -38,6 +39,11 @@ function App() {
         <Route
           path="/tickets/:id"
           element={<TicketDetails />}
+        />
+      
+        <Route 
+          path="/notifications" 
+          element={<Notifications />}
         />
       </Route>
 
