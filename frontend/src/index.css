@@ -139,3 +139,140 @@ p {
   background: #dbeafe;
   color: #1e3a8a;
 }
+
+
+/* ==============================
+   LOGIN
+   Mantém o layout da página de login
+   alinhado ao restante da aplicação.
+   ============================== */
+
+#root > div:has(> form) {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 20px;
+  background: var(--background);
+}
+
+#root > div:has(> form) > h1 {
+  width: 100%;
+  max-width: 420px;
+  margin: 0 0 6px;
+  color: var(--primary);
+  font-size: 24px;
+  line-height: 1.2;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  text-align: center;
+}
+
+#root > div:has(> form) > h2 {
+  width: 100%;
+  max-width: 420px;
+  margin: 0 0 20px;
+  color: var(--text);
+  font-size: 22px;
+  line-height: 1.3;
+  font-weight: 600;
+  text-align: center;
+}
+
+#root > div:has(> form) > form {
+  width: 100%;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 28px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+#root > div:has(> form) > form > div {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+#root > div:has(> form) > form label {
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+#root > div:has(> form) > form input {
+  width: 100%;
+  min-height: 42px;
+  padding: 10px 13px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  color: var(--text);
+  font-size: 14px;
+  transition: border-color .18s ease, box-shadow .18s ease;
+}
+
+#root > div:has(> form) > form input::placeholder {
+  color: var(--text-light);
+}
+
+#root > div:has(> form) > form input:hover {
+  border-color: #b8c0cc;
+}
+
+#root > div:has(> form) > form input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, .10);
+}
+
+#root > div:has(> form) > form p {
+  margin: -2px 0 0;
+  padding: 11px 13px;
+  border: 1px solid var(--danger-border);
+  border-radius: var(--radius-md);
+  background: var(--danger-bg);
+  color: #b42318;
+  font-size: 13px;
+}
+
+#root > div:has(> form) > form button {
+  width: 100%;
+  min-height: 42px;
+  margin-top: 2px;
+  padding: 10px 14px;
+  border: 1px solid var(--primary);
+  border-radius: var(--radius-md);
+  background: var(--primary);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  transition: background-color .18s ease, border-color .18s ease,
+    box-shadow .18s ease, transform .15s ease;
+}
+
+#root > div:has(> form) > form button:hover:not(:disabled) {
+  background: var(--primary-hover);
+  border-color: var(--primary-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
+#root > div:has(> form) > form button:disabled {
+  opacity: .65;
+}
+
+@media (max-width: 500px) {
+  #root > div:has(> form) {
+    padding: 24px 16px;
+  }
+
+  #root > div:has(> form) > form {
+    padding: 22px 18px;
+  }
+}
