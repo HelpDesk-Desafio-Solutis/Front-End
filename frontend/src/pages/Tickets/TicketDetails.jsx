@@ -347,7 +347,7 @@ function TicketDetails({
               </div>
 
               {!editing ? (
-                <>
+                <div className="ticket-details-view">
                   <div className="ticket-modal-section">
                     <h3>Descrição</h3>
 
@@ -515,7 +515,7 @@ function TicketDetails({
                       )}
                     </div>
                   )}
-                </>
+                </div>
               ) : (
                 <div className="ticket-edit-form">
                   <h3>Editar ticket</h3>

@@ -182,3 +182,27 @@
     border-right-color: var(--border);
   }
 }
+
+
+/* ===== Application-wide controls ===== */
+.btn,
+button.primary,
+.btn-primary {
+  transition: background-color .18s ease, border-color .18s ease,
+    color .18s ease, transform .15s ease, box-shadow .18s ease;
+}
+
+.btn:hover:not(:disabled),
+button.primary:hover:not(:disabled),
+.btn-primary:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid rgba(37, 99, 235, .16);
+  outline-offset: 2px;
+}
